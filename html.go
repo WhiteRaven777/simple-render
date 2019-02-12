@@ -1,15 +1,95 @@
 package render
 
 import (
+	"fmt"
 	"html/template"
 	"io"
 	"net/http"
+	"regexp"
+	"strconv"
+	"strings"
 )
 
 var funcMap template.FuncMap
 
+func toString(i interface{}) (string, error) {
+	switch v := i.(type) {
+	case string:
+		return v, nil
+	case bool:
+		return strconv.FormatBool(v), nil
+	case float64:
+		return strconv.FormatFloat(v, 'f', -1, 64), nil
+	case float32:
+		return strconv.FormatFloat(float64(v), 'f', -1, 32), nil
+	case int:
+		return strconv.Itoa(v), nil
+	case int64:
+		return strconv.FormatInt(v, 10), nil
+	case int32:
+		return strconv.Itoa(int(v)), nil
+	case int16:
+		return strconv.FormatInt(int64(v), 10), nil
+	case int8:
+		return strconv.FormatInt(int64(v), 10), nil
+	case uint:
+		return strconv.FormatInt(int64(v), 10), nil
+	case uint64:
+		return strconv.FormatInt(int64(v), 10), nil
+	case uint32:
+		return strconv.FormatInt(int64(v), 10), nil
+	case uint16:
+		return strconv.FormatInt(int64(v), 10), nil
+	case uint8:
+		return strconv.FormatInt(int64(v), 10), nil
+	case []byte:
+		return string(v), nil
+	case template.HTML:
+		return string(v), nil
+	case template.URL:
+		return string(v), nil
+	case template.JS:
+		return string(v), nil
+	case template.CSS:
+		return string(v), nil
+	case template.HTMLAttr:
+		return string(v), nil
+	case nil:
+		return "", nil
+	case fmt.Stringer:
+		return v.String(), nil
+	case error:
+		return v.Error(), nil
+	default:
+		return "", fmt.Errorf("cast error; value: %#v, type: %T", i, i)
+	}
+}
+
 func init() {
 	funcMap = template.FuncMap{
+		"replace": func(i ...interface{}) (o string) {
+			if len(i) == 3 {
+				v0, err0 := toString(i[0])
+				v1, err1 := toString(i[1])
+				v2, err2 := toString(i[2])
+				if err0 == nil && err1 == nil && err2 == nil {
+					o = strings.Replace(v0, v1, v2, -1)
+				}
+			}
+			return
+		},
+		"replaceRE": func(i ...interface{}) (o string) {
+			if len(i) == 3 {
+				v0, err0 := toString(i[0])
+				v1, err1 := toString(i[1])
+				v2, err2 := toString(i[2])
+				if err0 == nil && err1 == nil && err2 == nil {
+					r := regexp.MustCompile(v0)
+					o = r.ReplaceAllString(v2, v1)
+				}
+			}
+			return
+		},
 		"safeCSS": func(i interface{}) (o template.CSS) {
 			if v, ok := i.(string); ok {
 				o = template.CSS(v)

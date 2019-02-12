@@ -84,6 +84,31 @@ func Sample(w http.ResponseWriter, r *http.Request) {
 
 ### Functions
 
+#### replace
+##### Syntax
+```
+replace INPUT OLD NEW
+```
+##### Example
+```
+<span>{{ replace "Is this an apple?" "an apple" "a pen" }}</span>
+-> <span>Is this a pen?</span>
+```
+
+#### replaceRE
+##### Syntax
+```
+replaceRE PATTERN REPLACEMENT INPUT
+```
+##### Example
+```
+{{ replaceRE "^https?://([^/]+).*" "$1" "https://github.com/WhiteRaven777/simple-render" }}
+-> github.com
+
+{{ "https://github.com/WhiteRaven777/simple-render" | replaceRE "^https?://([^/]+).*" "$1" }}
+-> github.com
+```
+
 #### safeCSS
 ##### Syntax
 ```
