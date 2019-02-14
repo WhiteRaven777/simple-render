@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"io"
 	"net/http"
+	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
@@ -67,6 +68,35 @@ func toString(i interface{}) (string, error) {
 
 func init() {
 	funcMap = template.FuncMap{
+		"in": func(i ...interface{}) (o bool) {
+			if len(i) == 2 {
+				if i[0] != nil {
+					v := reflect.ValueOf(i[0])
+					switch v.Type().Kind() {
+					case reflect.Slice:
+						var v0 string
+						var err0 error
+						v1, err1 := toString(i[1])
+						if err1 == nil {
+							for n := 0; n < v.Len(); n++ {
+								v0, err0 = toString(v.Index(n))
+								if err0 == nil && !o {
+									o = strings.Contains(v0, v1)
+									return
+								}
+							}
+						}
+					default:
+						v0, err0 := toString(i[0])
+						v1, err1 := toString(i[1])
+						if err0 == nil && err1 == nil {
+							o = strings.Contains(v0, v1)
+						}
+					}
+				}
+			}
+			return
+		},
 		"replace": func(i ...interface{}) (o string) {
 			if len(i) == 3 {
 				v0, err0 := toString(i[0])

@@ -84,6 +84,20 @@ func Sample(w http.ResponseWriter, r *http.Request) {
 
 ### Functions
 
+#### in
+##### Syntax
+```
+in SET ITEM
+```
+##### Example
+```
+{{ if in "/example/aaa" "/example" }}True{{ else }}False{{ end }}
+-> True
+
+{{ if in "/sample/aaa" "/example" }}True{{ else }}False{{ end }}
+-> False
+```
+
 #### replace
 ##### Syntax
 ```
