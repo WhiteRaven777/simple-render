@@ -84,6 +84,45 @@ func Sample(w http.ResponseWriter, r *http.Request) {
 
 ### Functions
 
+#### day
+##### Syntax
+```
+day
+```
+##### Example
+```
+# today: 2019-02-14 17:18:19 (UTC)
+
+{{ day }}
+-> 2019
+```
+
+#### date
+##### Syntax
+```
+date
+```
+##### Example
+```
+# today: 2019-02-14 17:18:19 (UTC)
+
+{{ date }}
+-> 2019-02-14
+```
+
+#### datetime
+##### Syntax
+```
+datetime
+```
+##### Example
+```
+# today: 2019-02-14 17:18:19 (UTC)
+
+{{ datetime }}
+-> 2019-02-14T17:18:19Z
+```
+
 #### in
 ##### Syntax
 ```
@@ -96,6 +135,19 @@ in SET ITEM
 
 {{ if in "/sample/aaa" "/example" }}True{{ else }}False{{ end }}
 -> False
+```
+
+#### month
+##### Syntax
+```
+month
+```
+##### Example
+```
+# today: 2019-02-14 17:18:19 (UTC)
+
+{{ month }}
+-> 2
 ```
 
 #### replace
@@ -210,4 +262,30 @@ slice ITEM...
 ```
 {{ print (slice 0 1 2)}}
 -> [0 1 2]
+```
+
+#### time
+##### Syntax
+```
+time
+```
+##### Example
+```
+# today: 2019-02-14 17:18:19 (UTC)
+
+{{ time }}
+-> 17:18:19
+```
+
+#### year
+##### Syntax
+```
+year
+```
+##### Example
+```
+# today: 2019-02-14 17:18:19 (UTC)
+
+{{ year }}
+-> 2019
 ```

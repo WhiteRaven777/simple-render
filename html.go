@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var funcMap template.FuncMap
@@ -68,6 +69,15 @@ func toString(i interface{}) (string, error) {
 
 func init() {
 	funcMap = template.FuncMap{
+		"day": func() (o int) {
+			return time.Now().UTC().Day()
+		},
+		"date": func() (o string) {
+			return time.Now().UTC().Format("2006-01-02")
+		},
+		"datetime": func() (o string) {
+			return time.Now().UTC().Format(time.RFC3339)
+		},
 		"in": func(i ...interface{}) (o bool) {
 			if len(i) == 2 {
 				if i[0] != nil {
@@ -96,6 +106,9 @@ func init() {
 				}
 			}
 			return
+		},
+		"month": func() (o int) {
+			return int(time.Now().UTC().Month())
 		},
 		"replace": func(i ...interface{}) (o string) {
 			if len(i) == 3 {
@@ -152,6 +165,12 @@ func init() {
 		},
 		"slice": func(i ...interface{}) (o []interface{}) {
 			return i
+		},
+		"time": func() (o string) {
+			return time.Now().UTC().Format("15:04:05")
+		},
+		"year": func() (o int) {
+			return time.Now().UTC().Year()
 		},
 	}
 }
