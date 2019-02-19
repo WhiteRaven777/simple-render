@@ -107,6 +107,19 @@ func init() {
 			}
 			return
 		},
+		"map": func(i ...interface{}) (o map[string]interface{}) {
+			if size := len(i); size%2 == 0 && size > 0 {
+				o = make(map[string]interface{})
+				var s string
+				var e error
+				for n := 0; size/2 > n; n++ {
+					if s, e = toString(i[n*2]); e == nil {
+						o[s] = i[n*2+1]
+					}
+				}
+			}
+			return
+		},
 		"month": func() (o int) {
 			return int(time.Now().UTC().Month())
 		},

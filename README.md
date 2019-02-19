@@ -139,6 +139,22 @@ in SET ITEM
 -> False
 ```
 
+#### map
+##### Syntax
+```
+map KEY VALUE [KEY VALUE]...
+```
+##### Example
+```
+{{ $m := map "key1" 100 "key2" 200 "key3" 300 }}
+{{ printf "%#v" $m }}
+-> map[string]interface {}{"key1":100, "key2":200, "key3":300}
+
+{{ $m := map "key1" 100 "key2" 200 "key3" 300 "key4"}}
+{{ printf "%#v" $m }}
+-> 
+```
+
 #### month
 ##### Syntax
 ```
