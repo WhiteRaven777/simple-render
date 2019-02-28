@@ -2,6 +2,8 @@ package render
 
 import (
 	"fmt"
+	"go/token"
+	"go/types"
 	"html/template"
 	"io"
 	"net/http"
@@ -77,6 +79,16 @@ func init() {
 		},
 		"datetime": func() (o string) {
 			return time.Now().UTC().Format(time.RFC3339)
+		},
+		"eval": func(i interface{}) (o string) {
+			if v, ok := i.(string); ok {
+				if result, err := types.Eval(token.NewFileSet(), nil, token.NoPos, v); err == nil {
+					o = result.Value.ExactString()
+				} else {
+					fmt.Println(err.Error())
+				}
+			}
+			return
 		},
 		"in": func(i ...interface{}) (o bool) {
 			if len(i) == 2 {

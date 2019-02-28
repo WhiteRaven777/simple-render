@@ -42,7 +42,7 @@ func Sample(w http.ResponseWriter, r *http.Request) {
 ```
 
 ## HTML
-layout.html
+### layout.html
 ```
 {{ define "layout" }}<!doctype html>
 <html>
@@ -58,7 +58,7 @@ layout.html
 </html>{{ end }}
 ```
 
-view.html
+### view.html
 ```
 {{ define "title" }}{{ .Title }}{{ end }}
 
@@ -84,7 +84,7 @@ func Sample(w http.ResponseWriter, r *http.Request) {
 
 ### Functions
 
-#### day
+#### ● day
 ##### Syntax
 ```
 day
@@ -97,7 +97,7 @@ day
 -> 14
 ```
 
-#### date
+#### ● date
 ##### Syntax
 ```
 date
@@ -110,7 +110,7 @@ date
 -> 2019-02-14
 ```
 
-#### datetime
+#### ● datetime
 ##### Syntax
 ```
 datetime
@@ -125,7 +125,21 @@ datetime
 # format: RFC3339
 ```
 
-#### in
+#### ● eval
+##### Syntax
+```
+datetime
+```
+##### Example
+```
+{{ eval "1 + 1" }}
+-> 2
+
+{{ eval "1 - 1 + 1" }}
+-> 1
+```
+
+#### ● in
 ##### Syntax
 ```
 in SET ITEM
@@ -139,7 +153,7 @@ in SET ITEM
 -> False
 ```
 
-#### map
+#### ● map
 ##### Syntax
 ```
 map KEY VALUE [KEY VALUE]...
@@ -155,7 +169,7 @@ map KEY VALUE [KEY VALUE]...
 -> 
 ```
 
-#### month
+#### ● month
 ##### Syntax
 ```
 month
@@ -168,7 +182,7 @@ month
 -> 2
 ```
 
-#### replace
+#### ● replace
 ##### Syntax
 ```
 replace INPUT OLD NEW
@@ -179,7 +193,7 @@ replace INPUT OLD NEW
 -> <span>Is this a pen?</span>
 ```
 
-#### replaceRE
+#### ● replaceRE
 ##### Syntax
 ```
 replaceRE PATTERN REPLACEMENT INPUT
@@ -193,7 +207,7 @@ replaceRE PATTERN REPLACEMENT INPUT
 -> github.com
 ```
 
-#### safeCSS
+#### ● safeCSS
 ##### Syntax
 ```
 safeCSS INPUT
@@ -207,7 +221,7 @@ safeCSS INPUT
 -> <p style="color: red;">...</p>
 ```
 
-#### safeHTML
+#### ● safeHTML
 ##### Syntax
 ```
 safeHTML INPUT
@@ -223,7 +237,7 @@ Link = `<a href="https://example.com">sample</a>`
 -> <a href="https://example.com">sample</a>
 ```
 
-#### safeHTMLAttr
+#### ● safeHTMLAttr
 ##### Syntax
 ```
 safeHTMLAttr INPUT
@@ -239,7 +253,7 @@ Url = "https://example.com"
 -> <a href="https://example.com">
 ```
 
-#### safeJS
+#### ● safeJS
 ##### Syntax
 ```
 safeJS INPUT
@@ -255,7 +269,7 @@ Hash = "abc123"
 -> <script>var form_abc123</script>
 ```
 
-#### safeURL
+#### ● safeURL
 ##### Syntax
 ```
 safeURL INPUT
@@ -271,7 +285,7 @@ Url = "https://example.com"
 -> <a href="https://example.com">
 ```
 
-#### slice
+#### ● slice
 ##### Syntax
 ```
 slice ITEM...
@@ -282,7 +296,7 @@ slice ITEM...
 -> [0 1 2]
 ```
 
-#### time
+#### ● time
 ##### Syntax
 ```
 time
@@ -295,7 +309,7 @@ time
 -> 17:18:19
 ```
 
-#### year
+#### ● year
 ##### Syntax
 ```
 year
