@@ -309,6 +309,35 @@ time
 -> 17:18:19
 ```
 
+#### ● trim, trimLeft, trimRight
+##### Syntax
+```
+trim
+trimLeft
+trimRight
+```
+##### Example
+```
+{{ trim "!!?? abcdef ??!!" "!?" }}
+-> " abcdef "
+
+{{ trim " abcdef " }}
+-> "abcdef"
+
+{{ trimLeft "!!?? abcdef ??!!" "!?" }}
+-> " abcdef ??!!"
+
+{{ trimLeft " abcdef " }}
+-> "abcdef "
+
+{{ trimRight "!!?? abcdef ??!!" "!?" }}
+-> "!!?? abcdef "
+
+{{ trimRight " abcdef " }}
+-> " abcdef"
+
+```
+
 #### ● year
 ##### Syntax
 ```
