@@ -194,6 +194,57 @@ func init() {
 		"time": func() (o string) {
 			return time.Now().UTC().Format("15:04:05")
 		},
+		"trim": func(i ...interface{}) (o string) {
+			switch len(i) {
+			case 0:
+				// none
+			case 1:
+				if v, err := toString(i[0]); err == nil {
+					o = strings.Trim(v, " ")
+				}
+			default:
+				v0, err0 := toString(i[0])
+				v1, err1 := toString(i[1])
+				if err0 == nil && err1 == nil {
+					o = strings.Trim(v0, v1)
+				}
+			}
+			return
+		},
+		"trimLeft": func(i ...interface{}) (o string) {
+			switch len(i) {
+			case 0:
+				// none
+			case 1:
+				if v, err := toString(i[0]); err == nil {
+					o = strings.TrimLeft(v, " ")
+				}
+			default:
+				v0, err0 := toString(i[0])
+				v1, err1 := toString(i[1])
+				if err0 == nil && err1 == nil {
+					o = strings.TrimLeft(v0, v1)
+				}
+			}
+			return
+		},
+		"trimRight": func(i ...interface{}) (o string) {
+			switch len(i) {
+			case 0:
+				// none
+			case 1:
+				if v, err := toString(i[0]); err == nil {
+					o = strings.TrimRight(v, " ")
+				}
+			default:
+				v0, err0 := toString(i[0])
+				v1, err1 := toString(i[1])
+				if err0 == nil && err1 == nil {
+					o = strings.TrimRight(v0, v1)
+				}
+			}
+			return
+		},
 		"year": func() (o int) {
 			return time.Now().UTC().Year()
 		},
