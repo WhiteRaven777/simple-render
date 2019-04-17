@@ -153,6 +153,20 @@ in SET ITEM
 -> False
 ```
 
+#### ● len
+##### Syntax
+```
+len INPUT
+```
+##### Example
+```
+{{ if gt (len .Notification) 0 }}<div id="notification">
+    <div class="success">
+        <p>{{ .Notification | safeHTML }}</p>
+    </div>
+</div>{{ end }}
+```
+
 #### ● map
 ##### Syntax
 ```

@@ -119,6 +119,12 @@ func init() {
 			}
 			return
 		},
+		"len": func(i interface{}) (o int) {
+			if s, e := toString(i); e == nil {
+				o = len(s)
+			}
+			return
+		},
 		"map": func(i ...interface{}) (o map[string]interface{}) {
 			if size := len(i); size%2 == 0 && size > 0 {
 				o = make(map[string]interface{})
