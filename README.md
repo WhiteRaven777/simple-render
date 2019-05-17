@@ -139,6 +139,20 @@ datetime
 -> 1
 ```
 
+#### ● findRE
+##### Syntax
+```
+findRE PATTERN INPUT [LIMIT]
+```
+##### Example
+```
+{{ findRE `/hoge/(\d+)` "/hoge/1234567890/hoge/987654321/abcdefghijk"   }}
+-> [/hoge/1234567890 /hoge/987654321]
+
+{{ findRE `/hoge/(\d+)` "/hoge/1234567890/hoge/987654321/abcdefghijk" 1 }}
+-> [/hoge/1234567890]
+```
+
 #### ● in
 ##### Syntax
 ```

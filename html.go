@@ -90,6 +90,27 @@ func init() {
 			}
 			return
 		},
+		"findRE": func(i ...interface{}) (o []string) {
+			if size := len(i); size == 2 {
+				v0, err0 := toString(i[0])
+				v1, err1 := toString(i[1])
+				if err0 == nil && err1 == nil {
+					o = regexp.MustCompile(v0).FindAllString(v1, -1)
+				}
+			} else if size == 3 {
+				v0, err0 := toString(i[0])
+				v1, err1 := toString(i[1])
+				v2, err2 := toString(i[2])
+				if err0 == nil && err1 == nil && err2 == nil {
+					if limit, err := strconv.Atoi(v2); err == nil {
+						o = regexp.MustCompile(v0).FindAllString(v1, limit)
+					} else {
+						fmt.Println(err.Error())
+					}
+				}
+			}
+			return
+		},
 		"in": func(i ...interface{}) (o bool) {
 			if len(i) == 2 {
 				if i[0] != nil {
