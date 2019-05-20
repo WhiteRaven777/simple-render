@@ -141,8 +141,13 @@ func init() {
 			return
 		},
 		"len": func(i interface{}) (o int) {
-			if s, e := toString(i); e == nil {
-				o = len(s)
+			switch reflect.TypeOf(i).Kind() {
+			case reflect.Array, reflect.Map, reflect.Slice:
+				o = reflect.ValueOf(i).Len()
+			default:
+				if s, e := toString(i); e == nil {
+					o = len(s)
+				}
 			}
 			return
 		},
