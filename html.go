@@ -294,7 +294,7 @@ func HTML(w io.Writer, status int, data interface{}, layout string, ext ...strin
 		if err := tmpl.ExecuteTemplate(w, layout, data); err != nil {
 			http.Error(hw, err.Error(), http.StatusInternalServerError)
 		} else {
-			hw.Header().Set("Context-Type", "text/html")
+			hw.Header().Set("Content-Type", "text/html")
 			hw.WriteHeader(status)
 		}
 	}

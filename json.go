@@ -11,7 +11,7 @@ func JSON(w io.Writer, status int, data interface{}) {
 		if b, err := json.Marshal(data); err != nil {
 			http.Error(hw, err.Error(), http.StatusInternalServerError)
 		} else {
-			hw.Header().Set("Context-Type", "application/json")
+			hw.Header().Set("Content-Type", "application/json")
 			hw.WriteHeader(status)
 			hw.Write(b)
 		}
