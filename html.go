@@ -6,7 +6,9 @@ import (
 	"go/types"
 	"html/template"
 	"io"
+	"io/ioutil"
 	"net/http"
+	"os"
 	"reflect"
 	"regexp"
 	"strconv"
@@ -292,6 +294,40 @@ func HTML(w io.Writer, status int, data interface{}, layout string, ext ...strin
 	tmpl := template.Must(template.New(layout + ".html").Funcs(funcMap).ParseFiles(files...))
 	if hw, ok := w.(http.ResponseWriter); ok {
 		if err := tmpl.ExecuteTemplate(w, layout, data); err != nil {
+			http.Error(hw, err.Error(), http.StatusInternalServerError)
+		} else {
+			hw.Header().Set("Content-Type", "text/html")
+			hw.WriteHeader(status)
+		}
+	}
+}
+
+type Template struct {
+	OsFiles   []*os.File
+	HttpFiles []http.File
+	Layout    string
+	Data      interface{}
+}
+
+func (t Template) HTML(w io.Writer, status int) {
+	tmpl := template.New(t.Layout).Funcs(funcMap)
+
+	for i := range t.OsFiles {
+		buf, _ := ioutil.ReadAll(t.OsFiles[i])
+		if t, err := tmpl.Parse(string(buf)); err == nil {
+			tmpl = t
+		}
+	}
+
+	for i := range t.HttpFiles {
+		buf, _ := ioutil.ReadAll(t.HttpFiles[i])
+		if t, err := tmpl.Parse(string(buf)); err == nil {
+			tmpl = t
+		}
+	}
+
+	if hw, ok := w.(http.ResponseWriter); ok {
+		if err := tmpl.ExecuteTemplate(w, t.Layout, t.Data); err != nil {
 			http.Error(hw, err.Error(), http.StatusInternalServerError)
 		} else {
 			hw.Header().Set("Content-Type", "text/html")
