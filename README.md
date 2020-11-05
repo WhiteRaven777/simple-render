@@ -125,6 +125,20 @@ datetime
 # format: RFC3339
 ```
 
+#### ● default
+##### Syntax
+```
+default DEFAULT_VALUE INPUT
+```
+##### Example
+```
+{{ 1 | default 2}}
+-> 2
+
+{{ "" | default "default"}}
+-> default
+```
+
 #### ● eval
 ##### Syntax
 ```

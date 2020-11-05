@@ -82,6 +82,54 @@ func init() {
 		"datetime": func() (o string) {
 			return time.Now().UTC().Format(time.RFC3339)
 		},
+		"default": func(i ...interface{}) (o interface{}) {
+			switch {
+			case len(i) == 1:
+				o = i[0]
+			case len(i) >= 2:
+				d, x := i[0], i[1]
+
+				v := reflect.ValueOf(x)
+				if !v.IsValid() {
+					o = d
+					break
+				}
+
+				var exist bool
+				switch v.Kind() {
+				case reflect.Bool:
+					exist = true
+				case reflect.String, reflect.Array, reflect.Slice, reflect.Map:
+					exist = v.Len() != 0
+				case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+					exist = v.Int() != 0
+				case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
+					exist = v.Uint() != 0
+				case reflect.Float32, reflect.Float64:
+					exist = v.Float() != 0
+				case reflect.Complex64, reflect.Complex128:
+					exist = v.Complex() != 0
+				case reflect.Struct:
+					switch actual := x.(type) {
+					case time.Time:
+						exist = !actual.IsZero()
+					default:
+						exist = true
+					}
+				default:
+					exist = !v.IsNil()
+				}
+
+				if exist {
+					o = x
+				} else {
+					o = d
+				}
+			default:
+				o = ""
+			}
+			return
+		},
 		"eval": func(i interface{}) (o string) {
 			if v, ok := i.(string); ok {
 				if result, err := types.Eval(token.NewFileSet(), nil, token.NoPos, v); err == nil {
