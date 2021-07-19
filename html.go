@@ -131,7 +131,7 @@ func init() {
 			return
 		},
 		"eval": func(i interface{}) (o string) {
-			if v, ok := i.(string); ok {
+			if v, err := toString(i); err == nil {
 				if result, err := types.Eval(token.NewFileSet(), nil, token.NoPos, v); err == nil {
 					o = result.Value.ExactString()
 				} else {
@@ -241,31 +241,31 @@ func init() {
 			return
 		},
 		"safeCSS": func(i interface{}) (o template.CSS) {
-			if v, ok := i.(string); ok {
+			if v, err := toString(i); err == nil {
 				o = template.CSS(v)
 			}
 			return
 		},
 		"safeHTML": func(i interface{}) (o template.HTML) {
-			if v, ok := i.(string); ok {
+			if v, err := toString(i); err == nil {
 				o = template.HTML(v)
 			}
 			return
 		},
 		"safeHTMLAttr": func(i interface{}) (o template.HTMLAttr) {
-			if v, ok := i.(string); ok {
+			if v, err := toString(i); err == nil {
 				o = template.HTMLAttr(v)
 			}
 			return
 		},
 		"safeJS": func(i interface{}) (o template.JS) {
-			if v, ok := i.(string); ok {
+			if v, err := toString(i); err == nil {
 				o = template.JS(v)
 			}
 			return
 		},
 		"safeURL": func(i interface{}) (o template.URL) {
-			if v, ok := i.(string); ok {
+			if v, err := toString(i); err == nil {
 				o = template.URL(v)
 			}
 			return
