@@ -142,7 +142,7 @@ default DEFAULT_VALUE INPUT
 #### ● eval
 ##### Syntax
 ```
-datetime
+eval FORMULAS
 ```
 ##### Example
 ```
