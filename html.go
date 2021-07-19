@@ -130,6 +130,28 @@ func init() {
 			}
 			return
 		},
+		"dict": func(i ...interface{}) (o map[interface{}]interface{}) {
+			if len(i)%2 == 0 {
+				o = make(map[interface{}]interface{})
+
+				for n := 0; n < len(i); n += 2 {
+					v0 := reflect.ValueOf(i[n])
+					switch v0.Type().Kind() {
+					case reflect.Slice, reflect.Array:
+						for m, l := 0, v0.Len(); m < l; m += 2 {
+							o[v0.Index(m).Interface()] = v0.Index(m + 1).Interface()
+						}
+					case reflect.Map:
+						for _, k := range v0.MapKeys() {
+							o[k.Interface()] = v0.MapIndex(k).Interface()
+						}
+					default:
+						o[i[n]] = i[n+1]
+					}
+				}
+			}
+			return
+		},
 		"eval": func(i interface{}) (o string) {
 			if v, err := toString(i); err == nil {
 				if result, err := types.Eval(token.NewFileSet(), nil, token.NoPos, v); err == nil {
@@ -186,6 +208,21 @@ func init() {
 							o = strings.Contains(v0, v1)
 						}
 					}
+				}
+			}
+			return
+		},
+		"index": func(i ...interface{}) (o interface{}) {
+			if len(i) >= 2 {
+				// index CORRECTION (INDEX|KEY)
+				cv := reflect.ValueOf(i[0]) // CORRECTION
+				iv := reflect.ValueOf(i[1]) // (INDEX|KEY)
+
+				switch cv.Type().Kind() {
+				case reflect.Slice, reflect.Array:
+					o = cv.Index(int(iv.Int()))
+				case reflect.Map:
+					o = cv.MapIndex(iv)
 				}
 			}
 			return
@@ -272,6 +309,18 @@ func init() {
 		},
 		"slice": func(i ...interface{}) (o []interface{}) {
 			return i
+		},
+		"split": func(i ...string) (o []string) {
+			if len(i) >= 2 {
+				// split STRING DELIMITER
+				s, errS := toString(i[0]) // STRING
+				d, errD := toString(i[1]) // DELIMITER
+
+				if errS == nil && errD == nil {
+					o = strings.Split(s, d)
+				}
+			}
+			return
 		},
 		"time": func() (o string) {
 			return time.Now().UTC().Format("15:04:05")

@@ -139,6 +139,17 @@ default DEFAULT_VALUE INPUT
 -> default
 ```
 
+#### ● dict
+##### Syntax
+```
+dict [KEY VALUE]...
+```
+##### Example
+```
+{{ dict 0 "aaa" 1 "bbb" 2 "ccc" }}
+-> map[0:"aaa",1:"bbb",2:"ccc"]
+```
+
 #### ● eval
 ##### Syntax
 ```
@@ -179,6 +190,20 @@ in SET ITEM
 
 {{ if in "/sample/aaa" "/example" }}True{{ else }}False{{ end }}
 -> False
+```
+
+#### ● index
+##### Syntax
+```
+index CORRECTION (INDEX|KEY)
+```
+##### Example
+```
+{{ index (slice 3 4 5) 0 }}
+-> 3
+
+{{ index (dict 0 "aaa" 1 "bbb" 2 "ccc") 0 }}
+-> aaa
 ```
 
 #### ● len
@@ -336,6 +361,20 @@ slice ITEM...
 ```
 {{ print (slice 0 1 2)}}
 -> [0 1 2]
+```
+
+#### ● split
+##### Syntax
+```
+split STRING DELIMITER
+```
+##### Example
+```
+{{ slice "SAMPLE-TEXT" "-" }}
+-> [SAMPLE TEXT]
+
+{{ slice "AAA+BBB-CCC+DDD" "+" }}
+-> [AAA BBB-CCC DDD]
 ```
 
 #### ● time
