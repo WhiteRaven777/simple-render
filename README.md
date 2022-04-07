@@ -220,6 +220,18 @@ len INPUT
 </div>{{ end }}
 ```
 
+#### ● lower
+##### Syntax
+```
+lower INPUT
+```
+##### Example
+```
+{{ $arr := slice "A" "B" "C" }}
+{{ range $arr }}{{ lower . }}{{ end }}
+-> a b c
+```
+
 #### ● map
 ##### Syntax
 ```
@@ -417,6 +429,18 @@ trimRight
 {{ trimRight " abcdef " }}
 -> " abcdef"
 
+```
+
+#### ● upper
+##### Syntax
+```
+upper INPUT
+```
+##### Example
+```
+{{ $arr := slice "a" "b" "c" }}
+{{ range $arr }}{{ upper . }}{{ end }}
+-> A B C
 ```
 
 #### ● year

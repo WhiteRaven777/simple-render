@@ -238,6 +238,15 @@ func init() {
 			}
 			return
 		},
+		"lower": func(i ...interface{}) (o string) {
+			var buf []string
+			for _, tmp := range i {
+				if s, err := toString(tmp); err == nil {
+					buf = append(buf, strings.ToLower(s))
+				}
+			}
+			return strings.Join(buf, " ")
+		},
 		"map": func(i ...interface{}) (o map[string]interface{}) {
 			if size := len(i); size%2 == 0 && size > 0 {
 				o = make(map[string]interface{})
@@ -375,6 +384,15 @@ func init() {
 				}
 			}
 			return
+		},
+		"upper": func(i ...interface{}) (o string) {
+			var buf []string
+			for _, tmp := range i {
+				if s, err := toString(tmp); err == nil {
+					buf = append(buf, strings.ToUpper(s))
+				}
+			}
+			return strings.Join(buf, " ")
 		},
 		"year": func() (o int) {
 			return time.Now().UTC().Year()
