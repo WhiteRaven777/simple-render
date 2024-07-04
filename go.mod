@@ -1,3 +1,3 @@
 module github.com/WhiteRaven777/simple-render
 
-go 1.15
+go 1.22
