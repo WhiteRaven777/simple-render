@@ -101,6 +101,9 @@ func init() {
 	}
 }
 
+// HTML renders the template as HTML to the provided io.Writer.
+//
+// Deprecated: Use Template.HTML method instead.
 func HTML(w io.Writer, status int, data any, layout string, ext ...string) {
 	files := append([]string{layout}, ext...)
 	for i := range files {
@@ -125,6 +128,25 @@ type Template struct {
 	Data      any
 }
 
+// HTML renders the template as HTML to the provided io.Writer.
+//
+// This method takes an io.Writer (typically an http.ResponseWriter) and an HTTP status code.
+// It renders the template with the given data and writes the resulting HTML to the writer.
+// The HTTP status code is set on the http.ResponseWriter to indicate the response status.
+//
+// Parameters:
+// - w: io.Writer to which the rendered HTML will be written. This is usually an http.ResponseWriter.
+// - status: HTTP status code to set on the http.ResponseWriter.
+//
+// Example usage:
+//
+//	func handler(w http.ResponseWriter, r *http.Request) {
+//	    tmpl := Template{
+//	        Layout: "layout.html",
+//	        Data:   myData,
+//	    }
+//	    tmpl.HTML(w, http.StatusOK)
+//	}
 func (t Template) HTML(w io.Writer, status int) {
 	tmpl := template.New(t.Layout).Funcs(funcMap)
 
