@@ -6,7 +6,6 @@ import (
 	"go/types"
 	"html/template"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"reflect"
@@ -428,14 +427,14 @@ func (t Template) HTML(w io.Writer, status int) {
 	tmpl := template.New(t.Layout).Funcs(funcMap)
 
 	for i := range t.OsFiles {
-		buf, _ := ioutil.ReadAll(t.OsFiles[i])
+		buf, _ := io.ReadAll(t.OsFiles[i])
 		if t, err := tmpl.Parse(string(buf)); err == nil {
 			tmpl = t
 		}
 	}
 
 	for i := range t.HttpFiles {
-		buf, _ := ioutil.ReadAll(t.HttpFiles[i])
+		buf, _ := io.ReadAll(t.HttpFiles[i])
 		if t, err := tmpl.Parse(string(buf)); err == nil {
 			tmpl = t
 		}
