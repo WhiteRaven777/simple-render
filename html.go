@@ -121,11 +121,42 @@ func HTML(w io.Writer, status int, data any, layout string, ext ...string) {
 	}
 }
 
+// Template represents a web template that includes references to OS files, embedded files,
+// a layout, data, and additional functions.
+//
+// This structure holds the necessary components to render a web page, including references to OS files,
+// embedded files (using http.File from an embed.FS), a layout template, data to be rendered,
+// and additional template functions.
+//
+// Fields:
+//   - OsFiles: A slice of pointers to os.File objects representing files to be read from the filesystem.
+//   - HttpFiles: A slice of http.File objects representing embedded files accessible via the http package.
+//   - Layout: The name of the layout template to be used with html/template.ExecuteTemplate for rendering.
+//   - Data: The data to be passed to the template for rendering.
+//   - ExtraFuncMap: A map of additional functions to be used in the template, extending
+//     the default template functionality.
+//
+// Example usage:
+//
+//	tmpl := Template{
+//	    OsFiles: []*os.File{file1, file2},
+//	    HttpFiles: []http.File{httpFile1, httpFile2},
+//	    Layout: "layout",  // This is the name of the layout template, not a file name.
+//	    Data: myData,
+//	    ExtraFuncMap: template.FuncMap{
+//	        "customFunc": func() string { return "Custom Function" },
+//	    },
+//	}
+//
+// This structure allows for flexible and powerful rendering of web pages, supporting
+// a wide range of use cases including the inclusion of both local and embedded files,
+// custom data, and additional template functions.
 type Template struct {
-	OsFiles   []*os.File
-	HttpFiles []http.File
-	Layout    string
-	Data      any
+	OsFiles      []*os.File
+	HttpFiles    []http.File
+	Layout       string
+	Data         any
+	ExtraFuncMap template.FuncMap
 }
 
 // HTML renders the template as HTML to the provided io.Writer.
@@ -149,6 +180,9 @@ type Template struct {
 //	}
 func (t Template) HTML(w io.Writer, status int) {
 	tmpl := template.New(t.Layout).Funcs(funcMap)
+	if len(t.ExtraFuncMap) > 0 {
+		tmpl.Funcs(t.ExtraFuncMap)
+	}
 
 	for i := range t.OsFiles {
 		buf, _ := io.ReadAll(t.OsFiles[i])
