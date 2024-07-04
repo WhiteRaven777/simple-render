@@ -43,15 +43,19 @@ func toString(i any) (string, error) {
 		return strconv.FormatInt(int64(v), 10), nil
 	case []byte:
 		return string(v), nil
+	case template.CSS:
+		return string(v), nil
 	case template.HTML:
 		return string(v), nil
-	case template.URL:
+	case template.HTMLAttr:
 		return string(v), nil
 	case template.JS:
 		return string(v), nil
-	case template.CSS:
+	case template.JSStr:
 		return string(v), nil
-	case template.HTMLAttr:
+	case template.URL:
+		return string(v), nil
+	case template.Srcset:
 		return string(v), nil
 	case nil:
 		return "", nil
