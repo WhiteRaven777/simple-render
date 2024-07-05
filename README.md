@@ -207,6 +207,44 @@ dict [KEY VALUE]...
 ```
 Note: The dict function requires an even number of arguments.
 
+#### ● dtemplate
+Executes a dynamically selected template within another template.
+
+##### Syntax
+```markdown
+dtemplate TEMPLATE_NAME DATA
+```
+
+##### Example
+```markdown
+{{ define "content1" }}
+Content 1: {{ .Content }}
+{{ end }}
+
+{{ define "content2" }}
+Content 2: {{ .Content }}
+{{ end }}
+
+{{ $data := dict "Content" "Hello, World!" }}
+{{ range (slice 1 2)
+{{ template (printf "content%d" .) $data }}
+{{ end }}
+-> Content 1: Hello, World!
+   Content 2: Hello, World!
+```
+
+Note: The dtemplate function allows for dynamic selection of templates based on the data provided, ensuring flexibility in rendering different templates within a single base template.
+
+##### Security Considerations
+When using the dtemplate function for dynamic template rendering, be aware of the following potential security risks:
+
+1. **Code Injection**:  
+Dynamic template names can introduce the risk of code injection if user input is directly used without validation. Always ensure that template names are not directly influenced by user input.
+2. **Template Injection**:  
+Avoid using untrusted user input directly as template names. Only use dynamic content for template names when the input can be fully controlled and trusted, such as internally generated names or predefined static values.
+
+To safely use the dtemplate function, ensure that all dynamic elements are controlled and validated. Using predefined or internally generated template names helps mitigate these risks and ensures secure template rendering.
+
 #### ● eval
 Evaluates a mathematical or logical expression and returns the result.
 

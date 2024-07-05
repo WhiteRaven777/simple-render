@@ -1,6 +1,7 @@
 package render
 
 import (
+	"bytes"
 	"fmt"
 	"go/constant"
 	"go/token"
@@ -95,6 +96,16 @@ func dictFn(i ...any) (o map[any]any) {
 		}
 	}
 	return
+}
+
+func dynamicTemplateFn(t *template.Template) func(string, any) (template.HTML, error) {
+	return func(name string, data any) (ret template.HTML, err error) {
+		var buf bytes.Buffer
+		if err = t.ExecuteTemplate(&buf, name, data); err == nil {
+			ret = template.HTML(buf.String())
+		}
+		return
+	}
 }
 
 func evalFn(i any) (o any) {

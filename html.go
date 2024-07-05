@@ -179,7 +179,11 @@ type Template struct {
 //	    tmpl.HTML(w, http.StatusOK)
 //	}
 func (t Template) HTML(w io.Writer, status int) {
-	tmpl := template.New(t.Layout).Funcs(funcMap)
+	tmpl := template.New(t.Layout)
+
+	funcMap["dtemplate"] = dynamicTemplateFn(tmpl)
+	tmpl.Funcs(funcMap)
+
 	if len(t.ExtraFuncMap) > 0 {
 		tmpl.Funcs(t.ExtraFuncMap)
 	}
